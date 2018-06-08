@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bloodborne RPG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css" />
+    <link href="https://fonts.googleapis.com/css?family=IM+Fell+English+SC" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />    
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="./assets/javascript/game.js"></script>
+</head>
+<body>
+    <header class='header'>Bloodborne RPG</header>
+    <!-- TODO: Setup a Container as the Staging Area to select hero/opponent -->
+    <div id='title'></div>
+    <div class='container player-selector'>
+        <div class='character-1 border player'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+        <div class='character-2 border player'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+        <div class='character-3 border player'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+        <div class='character-4 border player'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+    </div>
+
+    <div class='container opponent-selector'>
+        <div class='enemy-1 border opponent'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+        <div class='enemy-2 border opponent'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+        <div class='enemy-3 border opponent'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+        <div class='enemy-4 border opponent'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+        </div>
+    </div>
+
+    <!-- TODO: Setup a Container as the Battle Area to select hero/opponent -->
+    <div class='container battle-area'>
+        <div id='playerChar'>
+            <img src=''>
+            <br>
+            <button class='attackBtn'>Attack</button>
+        </div>
+        <p class='versus'>VS</p>
+        <div id='enemyChar'>
+            <img src=''>
+        </div>
+    </div>
+
+    <div id='attackLog'>
+        <p id='playerAttack'></p>
+        <p id='enemyAttack'></p>
+    </div>
+</body>
+</html>

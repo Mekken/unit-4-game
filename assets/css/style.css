@@ -1,0 +1,74 @@
+body {
+    font-family: 'IM Fell English SC', serif;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    background-image: url('../images/bg.jpg');
+    background-position: center;
+}
+
+.header {
+    font-size: 46px;
+}
+
+#title {
+    font-size: 30px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: auto;  
+}
+
+.player-selector {
+    display: none;
+}
+
+#playerChar img, .player-selector  img {
+    width: 170px;
+    height: 300px;
+}
+
+.player-selector p {
+    font-size: 20px;
+    color: greenyellow;
+}
+
+.opponent-selector {
+    display: none;
+}
+
+#enemyChar img, .opponent-selector img {
+    width: 200px;
+    height: 300px;
+    padding: 10px;
+}
+
+.opponent-selector p {
+    font-size: 20px;
+    color: orangered;
+}
+
+.border {
+    border: 4px groove;
+}
+
+.battle-area {
+    display: none;
+}
+
+.versus{
+    font-size: 40px;
+    padding: 10px;
+}
+
+#attackLog {
+    padding-top: 20px;
+    font-size: 25px;
+    color: goldenrod;
+}
