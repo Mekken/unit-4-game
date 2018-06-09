@@ -12,6 +12,9 @@ $(document).ready(function() {
         {charName: "DarkBeast", hp: 120, atkDmg: 15, imagePath: "./assets/images/enemy-darkbeast.PNG"}
     ]
 
+    //TODO: Add Selectors for each Elem in HTML
+    //
+    //-----------------------------------------
     game = {
         playerWon: false,
 
@@ -73,6 +76,39 @@ $(document).ready(function() {
             }
         },
 
+        //Utility Functions
+        //setTitle()
+        //setPlayerAttackLog(str)
+            //$(playerAttack).text(str)
+        //setEnemyAttackLog(str)
+            //$(enemyAttack).text(str)
+        //showElement()
+        //hideElement()
+        //displayPlayerSelector()
+            //showElement(player-selector)
+            //foreach class to select
+                //display Class Name and HP Value
+        
+        //displayEnemySelector()
+            //showElement(enemy-selector)
+                //display Class Name and HP Value
+       
+        //selectPlayer(charName)
+            //idx = findIndex(function(obj) { return obj.charName == charName})
+            //player.initPlayer(playerClasses[idx])
+            //playerClasses.splice(idx,1);
+        
+        //selectEnemy(charName)
+            //idx = findIndex(function(obj) { return obj.charName == charName})
+            //enemy.initEnemy(enemyClasses[idx])
+            //enemyClasses.splice(idx,1);
+        
+        //checkUserInput()
+            //player-class onclick()
+                //selectPlayer(player-class.charName)
+            //enemy-class onclick()
+                //selectEnemy(enemy-class.charName)
+        
         //Set the Title Text
         setTitle(text) {
             $('#title').text(text);
