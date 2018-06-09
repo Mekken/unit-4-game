@@ -165,8 +165,6 @@ $(document).ready(function() {
         selectPlayerClass(idx) {
             game.player.initPlayer(playerClasses[idx]);
             
-            console.log(game.player);
-
             //Remove Player Elements
             playerSelectorElem.css('display','none');
             game.displayEnemySelector();
