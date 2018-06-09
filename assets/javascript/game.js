@@ -3,7 +3,7 @@ $(document).ready(function() {
         {charName: "Blade", hp: 100, atkDmg: 8, scale: 8, critChance: 5, imagePath: "./assets/images/blade.PNG"},
         {charName: "Axe", hp: 120, atkDmg: 9, scale: 5, critChance: 15, imagePath: "./assets/images/axe.PNG"},
         {charName: "Hammer", hp: 160, atkDmg: 15, scale: 1, critChance: 0, imagePath: "./assets/images/hammer.PNG"},
-        {charName: "Dagger", hp: 90, atkDmg: 10, scale: 3, critChance: 30, imagePath: "./assets/images/dagger.PNG"}
+        {charName: "Dagger", hp: 96, atkDmg: 13, scale: 4, critChance: 50, imagePath: "./assets/images/dagger.PNG"}
     ]
 
     var enemyClasses = [
@@ -165,6 +165,8 @@ $(document).ready(function() {
         selectPlayerClass(idx) {
             game.player.initPlayer(playerClasses[idx]);
             
+            console.log(game.player);
+
             //Remove Player Elements
             playerSelectorElem.css('display','none');
             game.displayEnemySelector();
@@ -228,15 +230,16 @@ $(document).ready(function() {
 
         //Check User Input for Player and Opponent
         checkPlayerInput() {
-            playerElem.on('click', function(){
+            playerElem.off().on('click', function(){
                 let charClass = $(this).children('.charName').text();
                 let index = playerClasses.findIndex(function(obj) {
                     return charClass == obj.charName;
                 });
+                $(this).off();
                 game.selectPlayerClass(index);
             });
 
-            $('.opponent').on('click', function(){
+            $('.opponent').off().on('click', function(){
                 let charClass = $(this).children('.charName').text();
                 let index = enemyClasses.findIndex(function(obj) {
                         return charClass == obj.charName;
