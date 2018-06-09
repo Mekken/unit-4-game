@@ -72,7 +72,7 @@ $(document).ready(function() {
 
             attack(target) {
                 let critVal = Math.floor((Math.random() * 101) + 1);
-                playerLogElem.empty()
+                playerLogElem.empty();
 
                 if(critVal <= this.critChance){
                     target.hp -= (this.atkDmg * 1.5);
@@ -81,6 +81,7 @@ $(document).ready(function() {
                 else {
                     target.hp -= this.atkDmg; 
                 }
+                console.log("Current Atk DMG: " + this.atkDmg);
                 playerLogElem.append(this.charName + " attacked for " + this.atkDmg + "dmg");
                 this.atkDmg += this.scale;
             }
@@ -245,7 +246,7 @@ $(document).ready(function() {
                 game.selectOpponent(index);
             });
             
-            attackBtnElem.on('click', function() {
+            attackBtnElem.off().on('click', function() {
                 if(!game.combatEnd){
                     game.player.attack(game.enemy);
                     game.enemy.attack(game.player);
