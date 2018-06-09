@@ -81,7 +81,6 @@ $(document).ready(function() {
                 else {
                     target.hp -= this.atkDmg; 
                 }
-                console.log("Current Atk DMG: " + this.atkDmg);
                 playerLogElem.append(this.charName + " attacked for " + this.atkDmg + "dmg");
                 this.atkDmg += this.scale;
             }
