@@ -195,7 +195,6 @@ $(document).ready(function() {
         displayResults()
         {
             battleAreaElem.css('display','none');
-            //winTextElem.css('display','flex');
 
             if(game.player.isPlayerDead()){
                 game.setTitle('GAME OVER');
@@ -220,7 +219,6 @@ $(document).ready(function() {
         //Initiate Combat Phase
         startCombat() {
             game.combatEnd = false;
-            //winTextElem.css('display','none');
 
             game.clearLogs();
             game.setTitle('Combat Begins!');
@@ -260,7 +258,6 @@ $(document).ready(function() {
             });
 
             replayBtnElem.on('click', function() {
-                winTextElem.css('display','none');
                 replayBtnElem.css('display','none');
 
                 for(let i = 0; i < defeatedEnemies.length; ++i) {
