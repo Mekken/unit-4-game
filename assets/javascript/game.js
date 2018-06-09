@@ -1,22 +1,43 @@
 $(document).ready(function() {
     var playerClasses = [
-        {charName: "Blade", hp: 100, atkDmg: 15, scale: 20, critChance: 5, imagePath: "./assets/images/blade.PNG"},
-        {charName: "Axe", hp: 120, atkDmg: 30, scale: 5, critChance: 15, imagePath: "./assets/images/axe.PNG"},
-        {charName: "Hammer", hp: 160, atkDmg: 50, scale: 2, critChance: 0, imagePath: "./assets/images/hammer.PNG"},
-        {charName: "Dagger", hp: 90, atkDmg: 80, scale: 3, critChance: 30, imagePath: "./assets/images/dagger.PNG"}
-    ]
-    var enemyClasses = [
-        {charName: "Hunter", hp: 70, atkDmg: 6, imagePath: "./assets/images/enemy-hunter.PNG"},
-        {charName: "Gascoigne", hp: 98, atkDmg: 8, imagePath: "./assets/images/enemy-gascoigne.jpg"},
-        {charName: "Simon", hp: 101, atkDmg: 12, imagePath: "./assets/images/enemy-simon.jpg"},
-        {charName: "DarkBeast", hp: 120, atkDmg: 15, imagePath: "./assets/images/enemy-darkbeast.PNG"}
+        {charName: "Blade", hp: 100, atkDmg: 8, scale: 8, critChance: 5, imagePath: "./assets/images/blade.PNG"},
+        {charName: "Axe", hp: 120, atkDmg: 9, scale: 5, critChance: 15, imagePath: "./assets/images/axe.PNG"},
+        {charName: "Hammer", hp: 160, atkDmg: 15, scale: 1, critChance: 0, imagePath: "./assets/images/hammer.PNG"},
+        {charName: "Dagger", hp: 90, atkDmg: 10, scale: 3, critChance: 30, imagePath: "./assets/images/dagger.PNG"}
     ]
 
+    var enemyClasses = [
+        {charName: "Hunter", hp: 70, atkDmg: 6, imagePath: "./assets/images/enemy-hunter.PNG"},
+        {charName: "Gascoigne", hp: 98, atkDmg: 6, imagePath: "./assets/images/enemy-gascoigne.jpg"},
+        {charName: "Simon", hp: 101, atkDmg: 8, imagePath: "./assets/images/enemy-simon.jpg"},
+        {charName: "DarkBeast", hp: 120, atkDmg: 12, imagePath: "./assets/images/enemy-darkbeast.PNG"}
+    ]
+
+    var defeatedEnemies = [];
+
     //TODO: Add Selectors for each Elem in HTML
-    //
+    var headerElem = $('#header');
+    var titleElem = $('#title');
+    
+    var playerSelectorElem = $('.player-selector');
+    var playerElem = $('.player');
+    var enemySelectorElem = $('.opponent-selector');
+    var enemyElem = $('.opponent');
+
+    var battleAreaElem = $('.battle-area');
+    var battleAreaPlayerElem = $('.playerChar');
+    var attackBtnElem = $('#attackBtn');
+    var battleAreaEnemyElem = $('.enemyChar');
+
+    var attackLogElem = $('#attackLog');
+    var playerLogElem = $('#playerLog');
+    var enemyLogElem = $('#enemyLog');
+
+    var replayBtnElem = $('.replayBtn');
     //-----------------------------------------
+    
     game = {
-        playerWon: false,
+        combatEnd: true,
 
         player: {
             charName: "",
@@ -26,14 +47,24 @@ $(document).ready(function() {
             critChance: 0,
             imagePath: "",
 
-            initPlayer(charName, hp,atkDmg,scale,critChance,imagePath) {
-                this.charName = charName;
-                this.hp = hp;
-                this.atkDmg = atkDmg;
-                this.scale = scale;
-                this.critChance = critChance;
-                this.imagePath = imagePath;
+            initPlayer(playerObj) {
+                this.charName = playerObj.charName;
+                this.hp = playerObj.hp;
+                this.atkDmg = playerObj.atkDmg;
+                this.scale = playerObj.scale;
+                this.critChance = playerObj.critChance;
+                this.imagePath = playerObj.imagePath;
             },
+
+            getPlayerName()
+            {
+                return this.charName;
+            },
+
+            getPlayerHP() {
+                return this.hp;
+            },
+
 
             isPlayerDead() {
                 return (this.hp <= 0 ? true : false);
@@ -41,15 +72,17 @@ $(document).ready(function() {
 
             attack(target) {
                 let critVal = Math.floor((Math.random() * 101) + 1);
-                
+                playerLogElem.empty()
+
                 if(critVal <= this.critChance){
-                    target.hp -= (this.atkDmg * 1.5); 
+                    target.hp -= (this.atkDmg * 1.5);
+                    playerLogElem.text('CRIT! '); 
                 }
                 else {
                     target.hp -= this.atkDmg; 
                 }
+                playerLogElem.append(this.charName + " attacked for " + this.atkDmg + "dmg");
                 this.atkDmg += this.scale;
-                $('#playerAttack').text(this.charName + " attacked for " + this.atkDmg + "dmg");
             }
         },
 
@@ -59,138 +92,188 @@ $(document).ready(function() {
             atkDmg: 0,
             imagePath: "",
             
-            initOpponent(charName, hp, atkDmg, imagePath) {
-                this.charName = charName;
-                this.hp = hp;
-                this.atkDmg = atkDmg;
-                this.imagePath = imagePath;
+            initEnemy(enemyObj) {
+                this.charName = enemyObj.charName;
+                this.hp = enemyObj.hp;
+                this.atkDmg = enemyObj.atkDmg;
+                this.imagePath = enemyObj.imagePath;
             },
 
-            isOpponentDead() {
+            getEnemyName() {
+                return this.charName;
+            },
+
+            getEnemyHP() {
+                return this.hp;
+            },
+
+            isEnemyDead() {
                 return (this.hp <= 0 ? true : false);
             },
             
             attack(target) {
                 target.hp -= this.atkDmg;
-                $('#enemyAttack').text(this.charName + " attacked for " + this.atkDmg + "dmg");
+                enemyLogElem.text(this.charName + " attacked for " + this.atkDmg + "dmg");
             }
         },
 
         //Utility Functions
         //setTitle()
-        //setPlayerAttackLog(str)
-            //$(playerAttack).text(str)
-        //setEnemyAttackLog(str)
-            //$(enemyAttack).text(str)
-        //showElement()
-        //hideElement()
-        //displayPlayerSelector()
-            //showElement(player-selector)
-            //foreach class to select
-                //display Class Name and HP Value
-        
-        //displayEnemySelector()
-            //showElement(enemy-selector)
-                //display Class Name and HP Value
-       
-        //selectPlayer(charName)
-            //idx = findIndex(function(obj) { return obj.charName == charName})
-            //player.initPlayer(playerClasses[idx])
-            //playerClasses.splice(idx,1);
-        
-        //selectEnemy(charName)
-            //idx = findIndex(function(obj) { return obj.charName == charName})
-            //enemy.initEnemy(enemyClasses[idx])
-            //enemyClasses.splice(idx,1);
-        
-        //checkUserInput()
-            //player-class onclick()
-                //selectPlayer(player-class.charName)
-            //enemy-class onclick()
-                //selectEnemy(enemy-class.charName)
-        
-        //Set the Title Text
         setTitle(text) {
-            $('#title').text(text);
+            titleElem.text(text);
         },
 
-        showElement(selector){
-            $(selector).css('display','flex');
+        clearLogs() {
+            playerLogElem.empty();
+            enemyLogElem.empty();
+        },
+        
+        setupEnemyElements()
+        {
+            enemySelectorElem.empty();
+            enemyClasses.forEach(function(elem,idx) {
+                enemySelectorElem.append(`<div class='enemy-${idx+1} border opponent'></div>`);
+                $(`.enemy-${idx+1}.opponent`).append("<p class='charName'></p><img class='portrait' src=''><p class='health'></p>");
+            })
         },
 
-        hideElement(selector){
-            $(selector).css('display','none');
+        //displayPlayerSelector()
+        displayPlayerSelector() {
+            game.setTitle('Select a Player Class');
+            playerSelectorElem.css('display','flex');
+
+            playerClasses.forEach(function(elem,idx) {
+                $(`.character-${idx+1} .charName`).text(elem.charName);
+                $(`.character-${idx+1} .health`).text("HP: " + elem.hp);
+                $(`.character-${idx+1} .portrait`).attr('src', elem.imagePath);
+            })
         },
 
-        //Set the Player Selected
-        selectPlayerClass(playerClass) {
-            this.player.initPlayer(playerClass.charName, playerClass.hp, playerClass.atkDmg, playerClass.scale, playerClass.critChance, playerClass.imagePath);
+        //displayEnemySelector()
+        displayEnemySelector() {
+            game.setTitle('Select an Opponent');
+            enemySelectorElem.css('display','flex');
+
+            enemyClasses.forEach(function(elem,idx) {
+                $(`.enemy-${idx+1} .charName`).text(elem.charName);
+                $(`.enemy-${idx+1} .health`).text("HP: " + elem.hp);
+                $(`.enemy-${idx+1} .portrait`).attr('src', elem.imagePath);
+            })
+        },
+
+        //selectPlayer(idx)
+        selectPlayerClass(idx) {
+            game.player.initPlayer(playerClasses[idx]);
             
             //Remove Player Elements
-            this.hideElement('.player-selector');
-            this.setTitle('Select an Opponent');
-            this.showElement('.opponent-selector');
+            playerSelectorElem.css('display','none');
+            game.displayEnemySelector();
+        },
+        
+        //Set the Opponent Selected
+        selectOpponent(idx) {
+            game.enemy.initEnemy(enemyClasses[idx]);
+            defeatedEnemies.push(enemyClasses.splice(idx,1)[0]);
+            $('.opponent:nth-last-child(1)').remove();
+
+            //Remove Opponent Elements
+            enemySelectorElem.css('display','none');
+            game.startCombat();
         },
 
-        //Set the Opponent Selected
-        selectOpponent(opponentClass) {
-            this.enemy.initOpponent(opponentClass.charName, opponentClass.hp, opponentClass.atkDmg, opponentClass.imagePath);
+        displayBattleDetails()
+        {
+            battleAreaPlayerElem.children('img').attr('src', game.player.imagePath);
+            battleAreaPlayerElem.children('.charName').text(game.player.getPlayerName());
+            battleAreaPlayerElem.children('.health').text("HP: " + game.player.getPlayerHP());
             
-            //Remove Opponent Elements
-            this.hideElement('.opponent-selector');
-            this.startCombat();
+            battleAreaEnemyElem.children('img').attr('src', game.enemy.imagePath);
+            battleAreaEnemyElem.children('.charName').text(game.enemy.getEnemyName());
+            battleAreaEnemyElem.children('.health').text("HP: " + game.enemy.getEnemyHP());
+        },
+
+        displayResults()
+        {
+            battleAreaElem.css('display','none');
+            //winTextElem.css('display','flex');
+
+            if(game.player.isPlayerDead()){
+                game.setTitle('GAME OVER');
+                replayBtnElem.css('display','flex');
+                game.clearLogs();
+            }
+            //If Enemy is Dead
+            else if(game.enemy.isEnemyDead()){
+                //if EnemyClasses is <= 0
+                if(enemyClasses.length <= 0){
+                    game.setTitle('YOU BEAT THEM ALL!');
+                    replayBtnElem.css('display','flex');
+                    game.clearLogs();
+                }
+                else {
+                    titleElem.text('Battle Won!');
+                    game.displayEnemySelector();
+                }
+            }  
         },
 
         //Initiate Combat Phase
         startCombat() {
-            this.setTitle('Combat Begins!');
-            this.showElement('.battle-area');
-            $('#playerChar img').attr('src', this.player.imagePath);
-            $('#enemyChar img').attr('src', this.enemy.imagePath);
+            game.combatEnd = false;
+            //winTextElem.css('display','none');
+
+            game.clearLogs();
+            game.setTitle('Combat Begins!');
+            game.displayBattleDetails();
+            battleAreaElem.css('display','flex');
         },
 
         //Check User Input for Player and Opponent
         checkPlayerInput() {
-            $('.player').on('click', function(){
+            playerElem.on('click', function(){
                 let charClass = $(this).children('.charName').text();
-                let charObj = playerClasses.find(function(obj) {
-                    if(obj.charName == charClass)
-                        return obj;
+                let index = playerClasses.findIndex(function(obj) {
+                    return charClass == obj.charName;
                 });
-                game.selectPlayerClass(charObj);
+                game.selectPlayerClass(index);
             });
 
             $('.opponent').on('click', function(){
                 let charClass = $(this).children('.charName').text();
-                let charObj = enemyClasses.find(function(obj) {
-                    if(obj.charName == charClass)
-                        return obj;
+                let index = enemyClasses.findIndex(function(obj) {
+                        return charClass == obj.charName;
                 });
-                game.selectOpponent(charObj);
+                game.selectOpponent(index);
             });
             
-            $('.attackBtn').on('click', function() {
-                //TODO: Fix Logic for when CPU dies, allow user to select a new enemy
-                if(!game.player.isPlayerDead()) {
+            attackBtnElem.on('click', function() {
+                if(!game.combatEnd){
                     game.player.attack(game.enemy);
                     game.enemy.attack(game.player);
+                    game.displayBattleDetails();
+
+                    if(game.player.isPlayerDead() || game.enemy.isEnemyDead()) {
+                        game.combatEnd = true;
+                        game.displayResults();
+                    }
                 }
             });
+
+            replayBtnElem.on('click', function() {
+                winTextElem.css('display','none');
+                replayBtnElem.css('display','none');
+
+                for(let i = 0; i < defeatedEnemies.length; ++i) {
+                    enemyClasses.push(defeatedEnemies[i]);
+                }
+                defeatedEnemies = [];
+                game.initGame();
+            })
         },
 
         initGame() {
-            this.setTitle('Select a Class');
-            this.showElement('.player-selector');
-            for(let i = 1; i <= playerClasses.length; ++i){
-                $(`.character-${i} .charName`).text(playerClasses[i-1].charName);
-                $(`.character-${i} .health`).text("HP: " + playerClasses[i-1].hp);
-                $(`.character-${i} .portrait`).attr('src', playerClasses[i-1].imagePath);
-            }
-            for(let i = 1; i <= enemyClasses.length; ++i){
-                $(`.enemy-${i} .charName`).text(enemyClasses[i-1].charName);
-                $(`.enemy-${i} .health`).text("HP: " + enemyClasses[i-1].hp);
-                $(`.enemy-${i} .portrait`).attr('src', enemyClasses[i-1].imagePath);
-            }
+            this.setupEnemyElements(); 
+            this.displayPlayerSelector();
             this.checkPlayerInput();
         }
     }

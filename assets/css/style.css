@@ -4,11 +4,17 @@ body {
     color: white;
     text-align: center;
     background-image: url('../images/bg.jpg');
+    background-attachment: fixed;
     background-position: center;
 }
 
-.header {
+#header {
     font-size: 46px;
+}
+
+#winText{ 
+    font-size: 30px;
+    color: darkorange; 
 }
 
 #title {
@@ -29,7 +35,7 @@ body {
     display: none;
 }
 
-#playerChar img, .player-selector  img {
+.playerChar img, .player-selector  img {
     width: 170px;
     height: 300px;
 }
@@ -43,10 +49,9 @@ body {
     display: none;
 }
 
-#enemyChar img, .opponent-selector img {
+.enemyChar img, .opponent-selector img {
     width: 200px;
     height: 300px;
-    padding: 10px;
 }
 
 .opponent-selector p {
@@ -71,4 +76,9 @@ body {
     padding-top: 20px;
     font-size: 25px;
     color: goldenrod;
+}
+
+.replayBtn {
+    font-size: 20px;
+    display: none;
 }

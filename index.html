@@ -13,7 +13,7 @@
     <script src="./assets/javascript/game.js"></script>
 </head>
 <body>
-    <header class='header'>Bloodborne RPG</header>
+    <header id='header'>Bloodborne RPG</header>
     <!-- TODO: Setup a Container as the Staging Area to select hero/opponent -->
     <div id='title'></div>
     <div class='container player-selector'>
@@ -40,44 +40,37 @@
     </div>
 
     <div class='container opponent-selector'>
+        <!-- Template Div 
         <div class='enemy-1 border opponent'>
             <p class='charName'></p>
             <img class='portrait' src=''>
             <p class='health'></p>
-        </div>
-        <div class='enemy-2 border opponent'>
-            <p class='charName'></p>
-            <img class='portrait' src=''>
-            <p class='health'></p>
-        </div>
-        <div class='enemy-3 border opponent'>
-            <p class='charName'></p>
-            <img class='portrait' src=''>
-            <p class='health'></p>
-        </div>
-        <div class='enemy-4 border opponent'>
-            <p class='charName'></p>
-            <img class='portrait' src=''>
-            <p class='health'></p>
-        </div>
+        </div> -->
     </div>
 
     <!-- TODO: Setup a Container as the Battle Area to select hero/opponent -->
     <div class='container battle-area'>
-        <div id='playerChar'>
-            <img src=''>
-            <br>
-            <button class='attackBtn'>Attack</button>
+        <div class='playerChar border'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
+            <button id='attackBtn'>Attack</button>
         </div>
         <p class='versus'>VS</p>
-        <div id='enemyChar'>
-            <img src=''>
+        <div class='enemyChar border'>
+            <p class='charName'></p>
+            <img class='portrait' src=''>
+            <p class='health'></p>
         </div>
     </div>
 
     <div id='attackLog'>
-        <p id='playerAttack'></p>
-        <p id='enemyAttack'></p>
+        <p id='playerLog'></p>
+        <p id='enemyLog'></p>
+    </div>
+
+    <div class='container gameover'>
+        <button class='replayBtn'>Play Again</button>
     </div>
 </body>
 </html>
